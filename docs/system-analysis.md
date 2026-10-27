@@ -33,9 +33,9 @@ The system should support concurrent request processing, execute long-running op
 
 ## 4. Assumptions
 
-- [Assumption 1]
-- [Assumption 2]
-- [Assumption 3]
+- **Assumption 1:**
+- **Assumption 2:**
+- **Assumption 3:**
 
 ## 5. Scope
 
