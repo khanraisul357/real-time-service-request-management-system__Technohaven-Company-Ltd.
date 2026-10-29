@@ -22,3 +22,33 @@ The selected stack uses React for a responsive frontend and Spring Boot for a st
 Spring WebSocket with STOMP supports server-pushed updates to connected clients without relying on polling as the primary update mechanism. Spring's ThreadPoolTaskExecutor provides a configurable worker pool for concurrent background processing.
 
 This stack supports the assignment's mandatory requirements while keeping the application modular and achievable within the assessment deadline. Additional infrastructure such as Redis, Kafka, and microservices is unnecessary for the initial MVP.
+
+
+## 2. High-Level Architecture
+
+The system consists of a React frontend, a Spring Boot backend, a MySQL database, and a background worker pool. REST APIs handle user actions and data retrieval, WebSocket delivers real-time updates, and background workers simulate repair processing without blocking incoming API requests.
+
+```mermaid
+flowchart TB
+    UI["React + Vite Frontend"]
+    API["Spring Boot REST API"]
+    WS["WebSocket + STOMP"]
+    SERVICE["Service Layer"]
+    REPO["Repository Layer"]
+    DB[("MySQL Database")]
+    WORKERS["Background Worker Pool"]
+
+    UI -->|"HTTP requests"| API
+    API --> SERVICE
+    SERVICE --> REPO
+    REPO --> DB
+    SERVICE -->|"Submit processing task"| WORKERS
+    WORKERS -->|"Persist status and result"| REPO
+    SERVICE -->|"Publish events"| WS
+    WS -->|"Live status updates"| UI
+```
+
+    SERVICE -->|"Submit processing task"| WORKERS
+    WORKERS -->|"Persist status and result"| REPO
+    SERVICE -->|"Publish events"| WS
+    WS -->|"Live status updates"| UI
