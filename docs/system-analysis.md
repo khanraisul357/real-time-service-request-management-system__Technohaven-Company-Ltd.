@@ -6,7 +6,7 @@
 - leading to delayed status updates.
 - limited visibility into request progress.
 - Inefficient coordination between operators and supervisors. 
-- anual processing also makes it difficult to handle multiple requests simultaneously and monitor ongoing operations effectively.
+- Manual processing also makes it difficult to handle multiple requests simultaneously and monitor ongoing operations effectively.
 
 The organization needs a centralized, web-based Service Request Management System that allows operators to submit and track service requests while supervisors monitor processing and status changes in real time. 
 The system should support concurrent request processing, execute long-running operations in the background, and provide live updates to connected users without requiring them to refresh the page.
@@ -20,7 +20,6 @@ The system should support concurrent request processing, execute long-running op
 ## 3. Users
 
 - **Operator:**
-  - Can receive new service request.
   - Can submit new service requests.
   - Can view submitted requests.
   - Can track their current status.
@@ -50,6 +49,11 @@ The system should support concurrent request processing, execute long-running op
 - Supervisor dashboard for monitoring all requests and their processing progress.
 - Persistent storage of request information and processing results.
 - Basic error handling for failed operations.
+- Updating request status.
+- Cancelling eligible requests
+- Searching and filtering requests.
+
+
 ### Out of Scope
 - Integration with external customer relationship management (CRM), billing, or enterprise resource planning (ERP) systems.
 - Email, SMS, or third-party messaging notifications.
