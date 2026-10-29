@@ -75,7 +75,7 @@ The system should support concurrent request processing, execute long-running op
 
 **Stakeholders/Actors:** Operator, Supervisor.
 
-- **FR-04: Update Request Status —** The system shall update request statuses as they move through the processing lifecycle, such as Pending, Processing, Completed, Failed, or Cancelled. Supervisors shall be able to perform permitted status-management actions, subject to the defined workflow rules.
+- **FR-04: Update Request Status —** The system shall automatically update request statuses as they move through the processing lifecycle: Pending, Processing, Completed, Failed, or Cancelled. Supervisors may perform permitted status-management actions, subject to defined workflow rules. The system shall prevent invalid status transitions, such as marking a request Completed before its processing has finished.
 
 **Stakeholders/Actors:** System, Supervisor.
 
@@ -83,7 +83,7 @@ The system should support concurrent request processing, execute long-running op
 
 **Stakeholders/Actors:** Operator, Supervisor, System.
 
-- **FR-06: Receive Live Updates —** The system shall automatically notify connected users when relevant request statuses or progress information changes. Users shall not need to manually refresh the page to see these updates.
+- **FR-06: Receive Live Updates —** The system shall preserve previously stored request data if the application or a background worker stops unexpectedly. After restarting, the system shall allow users to retrieve stored requests and identify requests that were still pending or processing when the interruption occurred. Automatic resumption of interrupted operations is outside the initial MVP scope.
 
 **Stakeholders/Actors:** Operator, Supervisor, System.
 
