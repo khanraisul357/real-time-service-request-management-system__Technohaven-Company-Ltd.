@@ -150,7 +150,7 @@ flowchart TB
     class ENTITY,STATUS,DTO support
     class DB database
 ```
-
+## 4. Entity-Relationship Diagram(ERD)
 ```mermaid
 erDiagram
     USER ||--o{ SERVICE_REQUEST : creates
