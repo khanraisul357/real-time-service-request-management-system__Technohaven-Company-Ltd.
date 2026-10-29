@@ -46,12 +46,13 @@ flowchart TB
     WORKERS -->|"Persist status and result"| REPO
     SERVICE -->|"Publish events"| WS
     WS -->|"Live status updates"| UI
-```
+
 
     SERVICE -->|"Submit processing task"| WORKERS
     WORKERS -->|"Persist status and result"| REPO
     SERVICE -->|"Publish events"| WS
     WS -->|"Live status updates"| UI
+```
 
 ## 3. Backend Component Diagram
 
