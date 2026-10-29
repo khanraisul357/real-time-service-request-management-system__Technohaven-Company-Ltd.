@@ -58,61 +58,95 @@ flowchart TB
 
 
 ```mermaid
+
 flowchart TB
-    subgraph FRONTEND["Frontend - React + Vite"]
-        FORM["RepairRequestForm"]
-        DASH["RequestDashboard"]
-        DETAILS["RequestDetails"]
-        WSCLIENT["WebSocketClient"]
+    %% A. Client Layer
+    subgraph CLIENT["A. Client Layer - React + Vite"]
+        direction TB
+        FORM["RepairRequestForm<br/>Submit repair requests"]
+        DASH["RequestDashboard<br/>View, search, and filter"]
+        DETAILS["RequestDetails<br/>View details and progress"]
+        CONTROLS["SupervisorControls<br/>Manage request statuses"]
+        WSCLIENT["WebSocketClient<br/>Receive live events and update UI"]
     end
 
-    subgraph API_LAYER["REST API Layer"]
-        CTRL["RepairRequestController"]
-        EXCEPTION["GlobalExceptionHandler"]
+    %% Communication
+    REST["REST Requests / Responses"]
+    WSCONN["WebSocket Events"]
+
+    %% B. Spring Boot Backend
+    subgraph BACKEND["B. Spring Boot Backend"]
+        direction TB
+
+        subgraph CONTROLLER_LAYER["1. Controller Layer"]
+            CTRL["RepairRequestController<br/>Receive HTTP requests and return responses"]
+            ERROR["GlobalExceptionHandler<br/>Handle application errors"]
+        end
+
+        subgraph SERVICE_LAYER["2. Service Layer"]
+            SERVICE["RepairRequestService<br/>Business rules, creation, status validation"]
+            PROCESSOR["RepairProcessingService<br/>Simulate repair work asynchronously"]
+            EXECUTOR["TaskExecutorConfig<br/>Configure background worker pool"]
+            PUBLISHER["RequestEventPublisher<br/>Publish creation and status events"]
+        end
+
+        subgraph REPOSITORY_LAYER["3. Repository Layer"]
+            REPO["RepairRequestRepository<br/>Database operations using Spring Data JPA"]
+        end
+
+        subgraph SUPPORT["Supporting Models and Data"]
+            ENTITY["RepairRequest<br/>Database entity"]
+            STATUS["RepairRequestStatus<br/>Status enum"]
+            DTO["Request / Response DTOs<br/>API input and output structures"]
+        end
+
+        subgraph REALTIME["Real-Time Communication"]
+            WSCONFIG["WebSocketConfig<br/>Configure WebSocket and STOMP"]
+            STOMP["WebSocket + STOMP<br/>Deliver events to connected clients"]
+        end
     end
 
-    subgraph BUSINESS_LAYER["Business Logic Layer"]
-        SERVICE["RepairRequestService"]
-        PROCESSOR["RepairProcessingService"]
-        EXECUTOR["TaskExecutorConfig"]
-        PUBLISHER["RequestEventPublisher"]
-    end
+    %% Database
+    DB[("MySQL Database<br/>Persistent repair records")]
 
-    subgraph DATA_LAYER["Data Access Layer"]
-        REPO["RepairRequestRepository"]
-        ENTITY["RepairRequest Entity"]
-        STATUS["RepairRequestStatus Enum"]
-        DTO["Request / Response DTOs"]
-        DB[("MySQL Database")]
-    end
-
-    subgraph REALTIME["Real-Time Configuration"]
-        WSCONFIG["WebSocketConfig"]
-        STOMP["WebSocket + STOMP"]
-    end
-
-    FORM -->|"Create request"| CTRL
-    DASH -->|"List, search, filter"| CTRL
-    DETAILS -->|"Read details / permitted actions"| CTRL
-
+    %% REST flow
+    FORM --> REST
+    DASH --> REST
+    DETAILS --> REST
+    CONTROLS --> REST
+    REST --> CTRL
     CTRL --> SERVICE
-    CTRL -.-> EXCEPTION
+    CTRL -.-> ERROR
+    CTRL -.-> DTO
     SERVICE --> REPO
-    SERVICE -->|"Submit background task"| EXECUTOR
-    EXECUTOR --> PROCESSOR
-    PROCESSOR -->|"Read / save processing state"| REPO
-
-    REPO --- ENTITY
-    ENTITY --- STATUS
-    CTRL --- DTO
-
     REPO --> DB
+    REPO -.-> ENTITY
+    ENTITY -.-> STATUS
 
-    SERVICE --> PUBLISHER
-    PROCESSOR --> PUBLISHER
+    %% Background processing
+    SERVICE -->|"Submit task"| EXECUTOR
+    EXECUTOR --> PROCESSOR
+    PROCESSOR -->|"Save progress and result"| REPO
+
+    %% Real-time events
+    SERVICE -->|"Request created / status changed"| PUBLISHER
+    PROCESSOR -->|"Progress / completion / failure"| PUBLISHER
     PUBLISHER --> STOMP
     WSCONFIG --> STOMP
-    STOMP --> WSCLIENT
-    WSCLIENT -->|"Live UI updates"| DASH
+    STOMP --> WSCONN
+    WSCONN --> WSCLIENT
+    WSCLIENT --> DASH
     WSCLIENT --> DETAILS
+    WSCLIENT --> CONTROLS
+
+    %% Styling
+    classDef frontend fill:#E0F2FE,stroke:#0284C7,color:#0C4A6E
+    classDef backend fill:#DBEAFE,stroke:#2563EB,color:#1E3A8A
+    classDef support fill:#F3E8FF,stroke:#9333EA,color:#581C87
+    classDef database fill:#D1FAE5,stroke:#059669,color:#064E3B
+
+    class FORM,DASH,DETAILS,CONTROLS,WSCLIENT frontend
+    class CTRL,SERVICE,REPO,PROCESSOR,EXECUTOR,PUBLISHER,ERROR,WSCONFIG,STOMP backend
+    class ENTITY,STATUS,DTO support
+    class DB database
 ```
