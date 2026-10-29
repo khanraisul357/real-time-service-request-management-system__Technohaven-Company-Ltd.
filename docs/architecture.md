@@ -52,3 +52,66 @@ flowchart TB
     WORKERS -->|"Persist status and result"| REPO
     SERVICE -->|"Publish events"| WS
     WS -->|"Live status updates"| UI
+
+## 3. Backend Component Diagram
+
+
+```mermaid
+flowchart TB
+    subgraph FRONTEND["Frontend - React + Vite"]
+        FORM["RepairRequestForm"]
+        DASH["RequestDashboard"]
+        DETAILS["RequestDetails"]
+        WSCLIENT["WebSocketClient"]
+    end
+
+    subgraph API_LAYER["REST API Layer"]
+        CTRL["RepairRequestController"]
+        EXCEPTION["GlobalExceptionHandler"]
+    end
+
+    subgraph BUSINESS_LAYER["Business Logic Layer"]
+        SERVICE["RepairRequestService"]
+        PROCESSOR["RepairProcessingService"]
+        EXECUTOR["TaskExecutorConfig"]
+        PUBLISHER["RequestEventPublisher"]
+    end
+
+    subgraph DATA_LAYER["Data Access Layer"]
+        REPO["RepairRequestRepository"]
+        ENTITY["RepairRequest Entity"]
+        STATUS["RepairRequestStatus Enum"]
+        DTO["Request / Response DTOs"]
+        DB[("MySQL Database")]
+    end
+
+    subgraph REALTIME["Real-Time Configuration"]
+        WSCONFIG["WebSocketConfig"]
+        STOMP["WebSocket + STOMP"]
+    end
+
+    FORM -->|"Create request"| CTRL
+    DASH -->|"List, search, filter"| CTRL
+    DETAILS -->|"Read details / permitted actions"| CTRL
+
+    CTRL --> SERVICE
+    CTRL -.-> EXCEPTION
+    SERVICE --> REPO
+    SERVICE -->|"Submit background task"| EXECUTOR
+    EXECUTOR --> PROCESSOR
+    PROCESSOR -->|"Read / save processing state"| REPO
+
+    REPO --- ENTITY
+    ENTITY --- STATUS
+    CTRL --- DTO
+
+    REPO --> DB
+
+    SERVICE --> PUBLISHER
+    PROCESSOR --> PUBLISHER
+    PUBLISHER --> STOMP
+    WSCONFIG --> STOMP
+    STOMP --> WSCLIENT
+    WSCLIENT -->|"Live UI updates"| DASH
+    WSCLIENT --> DETAILS
+```
