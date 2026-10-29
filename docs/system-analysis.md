@@ -61,4 +61,59 @@ The system should support concurrent request processing, execute long-running op
 - Complex workflow configuration, automatic request prioritization, and service-level agreement (SLA) management.
 - Native Android or iOS mobile applications.
 
+### 6. Functional Requirements
 
+- **FR-01: Create Service Request —** The system shall allow operators to submit new service requests by providing the required information. Each successfully submitted request shall receive a unique identifier and an initial status of Pending.
+
+**Stakeholders/Actors:** Operator.
+
+- **FR-02: View Service Requests —** The system shall allow operators to view their submitted requests and supervisors to view all service requests. The request list shall display essential information, including the request ID, submission time, and current status.
+
+**Stakeholders/Actors:** Operator, Supervisor.
+
+- **FR-03: View Request Details —** The system shall allow authorized users to open a service request and view its complete details, current status, processing progress, and available results or error information. Users shall only be able to access information permitted by their roles.
+
+**Stakeholders/Actors:** Operator, Supervisor.
+
+- **FR-04: Update Request Status —** The system shall update request statuses as they move through the processing lifecycle, such as Pending, Processing, Completed, Failed, or Cancelled. Supervisors shall be able to perform permitted status-management actions, subject to the defined workflow rules.
+
+**Stakeholders/Actors:** System, Supervisor.
+
+- **FR-05: Monitor Request Progress —** The system shall display the current processing state and progress information for active requests whenever such information is available. Supervisors and operators shall be able to identify pending, ongoing, completed, and failed requests.
+
+**Stakeholders/Actors:** Operator, Supervisor, System.
+
+- **FR-06: Receive Live Updates —** The system shall automatically notify connected users when relevant request statuses or progress information changes. Users shall not need to manually refresh the page to see these updates.
+
+**Stakeholders/Actors:** Operator, Supervisor, System.
+
+- **FR-07: Cancel Service Request —** The system shall allow an authorized operator or supervisor to request cancellation of a service request when its current state permits cancellation. The system shall update the request status accordingly and prevent a cancellation request from incorrectly overwriting a completed or otherwise non-cancellable state.
+
+**Stakeholders/Actors:** Operator, Supervisor, System.
+
+- **FR-08: Search and Filter Requests —** The system shall allow users to search for requests by their unique identifier and filter request lists by relevant criteria, such as status and submission date. The results shall respect each user's access permissions.
+
+**Stakeholders/Actors:** Operator, Supervisor.
+
+- **FR-09: Background Processing —** The system shall execute long-running service request operations in the background so that users can continue submitting requests and interacting with the application while processing continues. Users shall be able to monitor the status of these operations until they complete or fail.
+
+**Stakeholders/Actors:** System, Operator, Supervisor.
+
+- **FR-10: Persist Request Data —** The system shall store service request information, status changes, timestamps, and available processing results so that the information remains available after a page refresh or application restart. Authorized users shall be able to retrieve previously submitted requests.
+
+**Stakeholders/Actors:** System, Operator, Supervisor.
+
+- **FR-11: Handle Invalid Requests and Failures —** The system shall validate submitted information and provide understandable error messages when requests contain invalid data or cannot be processed. If a background operation fails, the system shall record the failure, update the request status appropriately, and inform relevant connected users.
+
+**Stakeholders/Actors:** Operator, Supervisor, System.
+
+## 7. Non-Functional Requirements
+
+- **NFR-01: Performance** — 
+- **NFR-02: Concurrency** — 
+- **NFR-03: Reliability** — 
+- **NFR-04: Security and Validation** — 
+- **NFR-05: Maintainability** — 
+- **NFR-06: Availability and Recovery** — 
+- **NFR-07: Usability and Responsiveness** — 
+- **NFR-08: Scalability** — 
