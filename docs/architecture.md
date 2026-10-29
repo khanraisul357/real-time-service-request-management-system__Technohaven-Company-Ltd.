@@ -150,3 +150,54 @@ flowchart TB
     class ENTITY,STATUS,DTO support
     class DB database
 ```
+
+```mermaid
+erDiagram
+    USER ||--o{ SERVICE_REQUEST : creates
+    EQUIPMENT ||--o{ SERVICE_REQUEST : concerns
+    SERVICE_REQUEST ||--o{ REQUEST_STATUS_HISTORY : records
+    USER o|--o{ REQUEST_STATUS_HISTORY : performs
+
+    USER {
+        BIGINT id PK
+        VARCHAR name
+        VARCHAR email UK
+        VARCHAR role
+    }
+
+    EQUIPMENT {
+        BIGINT id PK
+        VARCHAR category
+        VARCHAR model
+        VARCHAR asset_tag
+        VARCHAR serial_number
+    }
+
+    SERVICE_REQUEST {
+        BIGINT id PK
+        VARCHAR request_number UK
+        BIGINT equipment_id FK
+        BIGINT created_by FK
+        TEXT reported_issue
+        VARCHAR status
+        INT progress
+        VARCHAR progress_message
+        TEXT result_summary
+        TEXT error_message
+        DATETIME created_at
+        DATETIME updated_at
+        DATETIME started_at
+        DATETIME finished_at
+    }
+
+    REQUEST_STATUS_HISTORY {
+        BIGINT id PK
+        BIGINT request_id FK
+        BIGINT changed_by FK
+        VARCHAR actor_type
+        VARCHAR old_status
+        VARCHAR new_status
+        VARCHAR message
+        DATETIME changed_at
+    }
+```
