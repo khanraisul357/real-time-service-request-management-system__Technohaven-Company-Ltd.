@@ -33,16 +33,28 @@ The system should support concurrent request processing, execute long-running op
 
 ## 4. Assumptions
 
-- **Assumption 1:**
-- **Assumption 2:**
-- **Assumption 3:**
+- **Assumption 1:** The system will be accessed through a web browser, and users will have a stable internet connection.
+- **Assumption 2:** Operators and supervisors will have different access permissions based on their roles.
+- **Assumption 3:** Each service request will have a unique identifier, a description, a creation timestamp, and a status such as Pending, Processing, Completed, or Failed.
+- **Assumption 4:** Long-running operations will execute asynchronously in the background, allowing users to continue interacting with the application.
+- **Assumption 5:** Real-time status updates will be delivered to connected users automatically without requiring manual page refreshes.
 
 ## 5. Scope
 
 ### In Scope
-- [Feature or capability included in the first version]
-- [Feature or capability included in the first version]
-
+- User interface for submitting service requests and viewing request details.
+- Request listing with unique IDs, creation times, and current statuses.
+- Real-time status and progress updates for connected users.
+- Background processing of long-running service requests.
+- Concurrent processing of multiple requests without blocking the main application.
+- Supervisor dashboard for monitoring all requests and their processing progress.
+- Persistent storage of request information and processing results.
+- Basic error handling for failed operations.
 ### Out of Scope
-- [Feature intentionally excluded from the first version]
-- [Feature intentionally excluded from the first version]
+- Integration with external customer relationship management (CRM), billing, or enterprise resource planning (ERP) systems.
+- Email, SMS, or third-party messaging notifications.
+- Advanced analytics, business intelligence reports, and predictive insights.
+- Complex workflow configuration, automatic request prioritization, and service-level agreement (SLA) management.
+- Native Android or iOS mobile applications.
+
+
