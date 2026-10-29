@@ -107,13 +107,36 @@ The system should support concurrent request processing, execute long-running op
 
 **Stakeholders/Actors:** Operator, Supervisor, System.
 
-## 7. Non-Functional Requirements
+### 7. Non-Functional Requirements
 
-- **NFR-01: Performance** — 
-- **NFR-02: Concurrency** — 
-- **NFR-03: Reliability** — 
-- **NFR-04: Security and Validation** — 
-- **NFR-05: Maintainability** — 
-- **NFR-06: Availability and Recovery** — 
-- **NFR-07: Usability and Responsiveness** — 
-- **NFR-08: Scalability** — 
+- **NFR-01: Performance —** The system shall respond promptly to normal user interactions, including request submission, request retrieval, and filtering. Long-running operations shall not cause ordinary API requests or user-interface interactions to become unresponsive.
+
+**Stakeholders/Actors:** Operator, Supervisor, System Administrator.
+
+- **NFR-02: Concurrency —** The system shall support multiple service requests being processed concurrently without causing incorrect status updates, data corruption, or interference between independent requests. It shall maintain consistent request information when multiple users interact with the system simultaneously.
+
+**Stakeholders/Actors:** Operator, Supervisor, System Administrator.
+
+- **NFR-03: Reliability —** The system shall process requests consistently and maintain accurate status information throughout their lifecycle. Processing failures shall be handled without silently losing request records or incorrectly reporting failed operations as completed.
+
+**Stakeholders/Actors:** Operator, Supervisor, System Administrator.
+
+- **NFR-04: Security and Validation —** The system shall enforce role-based access permissions and validate all incoming data before accepting or processing requests. Sensitive information shall be protected against unauthorized access, and users shall not be able to perform actions outside their assigned permissions.
+
+**Stakeholders/Actors:** Operator, Supervisor, System Administrator.
+
+- **NFR-05: Maintainability —** The system shall follow a clear, modular architecture with separate responsibilities for user interfaces, business logic, data access, and background processing. This separation shall make it easier for developers to test, troubleshoot, modify, and extend the application without unnecessarily affecting unrelated components.
+
+**Stakeholders/Actors:** Developers, System Administrator, Organization.
+
+- **NFR-06: Availability and Recovery —** The system shall be designed to recover from application or worker interruptions with minimal disruption to stored request data. After recovery, it shall preserve previously recorded requests and accurately identify operations that remain pending, require resumption, or have failed.
+
+**Stakeholders/Actors:** Operator, Supervisor, System Administrator.
+
+- **NFR-07: Usability and Responsiveness —** The system shall provide a clear and consistent interface that allows operators to submit requests and supervisors to monitor processing with minimal effort. The interface shall adapt to common desktop, tablet, and mobile screen sizes and remain usable while background operations are running.
+
+**Stakeholders/Actors:** Operator, Supervisor.
+
+- **NFR-08: Scalability —** The system shall use a design that can accommodate increasing request volumes and numbers of concurrent users by allowing processing capacity and application resources to be increased as needed. Background workers and request-handling components should be capable of being scaled or tuned independently where practical, without requiring a complete redesign.
+
+**Stakeholders/Actors:** System Administrator, Developers, Organization, Operator, Supervisor.
