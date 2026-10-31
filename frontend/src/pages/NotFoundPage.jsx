@@ -1,0 +1,19 @@
+import { Link } from 'react-router-dom';
+import EmptyState from '../components/common/EmptyState';
+
+export default function NotFoundPage() {
+  return (
+    <div className="page">
+      <EmptyState
+        icon="search"
+        title="Page not found"
+        message="The page you are looking for does not exist."
+        action={
+          <Link to="/" className="btn btn-primary">
+            Back to dashboard
+          </Link>
+        }
+      />
+    </div>
+  );
+}
